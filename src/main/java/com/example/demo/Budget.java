@@ -1,8 +1,6 @@
 package com.example.demo;
 
 import java.time.LocalDate;
-import java.time.Month;
-import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -33,19 +31,17 @@ public class Budget {
     }
 
     public float query(LocalDate startDate, LocalDate endDate) {
-        // 2018/01/01 - 2018/02/28
         float total = 0;
 
         if (isSameMonth(startDate, endDate)) {
             // same month
-
             int days = endDate.getDayOfMonth() - startDate.getDayOfMonth() + 1;
             float amount = this.budgets.getOrDefault(this.getYearMonth(startDate), 0F);
             amount = amount * days / startDate.lengthOfMonth();
 
             total += amount;
         } else {
-
+            // different month
             for (LocalDate currentDate = LocalDate.of(startDate.getYear(), startDate.getMonthValue(), 1);
                  currentDate.isBefore(endDate);
                  currentDate.plusMonths(1)) {
