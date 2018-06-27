@@ -45,7 +45,6 @@ public class Budget {
             for (LocalDate currentDate = LocalDate.of(startDate.getYear(), startDate.getMonthValue(), 1);
                  currentDate.isBefore(endDate);
                  currentDate.plusMonths(1)) {
-                System.out.printf(currentDate.toString());
 
                 float amount = this.budgets.getOrDefault(this.getYearMonth(currentDate), 0F);
 
