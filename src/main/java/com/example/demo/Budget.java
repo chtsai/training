@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -28,7 +29,7 @@ public class Budget {
     }
 
     private String getYearMonth(LocalDate date) {
-        return String.valueOf(date.getYear()) + String.valueOf(date.getMonthValue());
+        return String.valueOf(date.getYear()) + String.valueOf(date.format(DateTimeFormatter.ofPattern("MM")));
     }
 
     public float query(LocalDate startDate, LocalDate endDate) {
@@ -46,8 +47,9 @@ public class Budget {
             long monthCounts = getDuringMonth(startDate, endDate);
             for (int i = 0; i < monthCounts; i++) {
                 LocalDate currentDate = startDate.plusMonths(i);
+                String budgetStringKey=this.getYearMonth(currentDate);
 
-                float amount = this.budgets.getOrDefault(this.getYearMonth(currentDate), 0F);
+                float amount = this.budgets.getOrDefault(budgetStringKey, 0F);
 
                 if (isSameMonth(currentDate, startDate)) {
                     // first month
