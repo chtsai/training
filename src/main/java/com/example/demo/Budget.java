@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -42,9 +43,9 @@ public class Budget {
             total += amount;
         } else {
             // different month
-            for (LocalDate currentDate = LocalDate.of(startDate.getYear(), startDate.getMonthValue(), 1);
-                 currentDate.isBefore(endDate);
-                 currentDate.plusMonths(1)) {
+            long monthCounts = getDuringMonth(startDate, endDate);
+            for (int i = 0; i < monthCounts; i++) {
+                LocalDate currentDate = startDate.plusMonths(i);
 
                 float amount = this.budgets.getOrDefault(this.getYearMonth(currentDate), 0F);
 
@@ -66,4 +67,10 @@ public class Budget {
 
         return total;
     }
+
+    private long getDuringMonth(LocalDate startDate, LocalDate endDate) {
+        return  ChronoUnit.MONTHS.between(LocalDate.of(startDate.getYear(), startDate.getMonthValue(), 1), LocalDate.of(endDate.getYear(), endDate.getMonthValue(), endDate.lengthOfMonth()).plusDays(1));
+
+    }
+
 }
