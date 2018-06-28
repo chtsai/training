@@ -15,6 +15,20 @@ public class BudgetTest {
     private Budget budget = new Budget();
 
     @Test
+    public void testTheEndDayBeforeStartDate() {
+        givenBudget(
+                new LinkedHashMap() {{
+                    put("201806", 3000F);
+                }}
+        );
+
+        LocalDate startDate = LocalDate.of(2018, 06, 26);
+        LocalDate endDate = LocalDate.of(2018, 06, 20);
+
+        assertEquals(0F, budget.query(startDate, endDate));
+    }
+
+    @Test
     public void testTheSameDay() {
         givenBudget(
                 new LinkedHashMap() {{

@@ -33,6 +33,10 @@ public class Budget {
     }
 
     public float query(LocalDate startDate, LocalDate endDate) {
+        if (endDate.isBefore(startDate)) {
+            return 0;
+        }
+
         float total = 0;
 
         if (isSameMonth(startDate, endDate)) {
@@ -46,9 +50,10 @@ public class Budget {
             // different month
             long monthCounts = getDuringMonth(startDate, endDate);
             for (int i = 0; i < monthCounts; i++) {
+
+
                 LocalDate currentDate = startDate.plusMonths(i);
                 String budgetStringKey=this.getYearMonth(currentDate);
-
                 float amount = this.budgets.getOrDefault(budgetStringKey, 0F);
 
                 if (isSameMonth(currentDate, startDate)) {
