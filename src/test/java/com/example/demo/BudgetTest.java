@@ -14,39 +14,53 @@ public class BudgetTest {
 
     private Budget budget = new Budget();
 
-    @Before
-    public void before() {
-        Map<String, Float> map = new LinkedHashMap() {{
-            put("20186", 3000F);
-        }};
-        budget.setBudgets(map);
-    }
-
     @Test
     public void testTheSameDay() {
-        LocalDate today = LocalDate.of(2018, 06, 26);
-        LocalDate tomorrow = LocalDate.of(2018,06,26);
+        givenBudget(
+                new LinkedHashMap() {{
+                    put("20186", 3000F);
+                }}
+        );
 
-        assertEquals(new Float(100), budget.query(today, tomorrow));
+        LocalDate startDate = LocalDate.of(2018, 06, 26);
+        LocalDate endDate = LocalDate.of(2018, 06, 26);
+
+        assertEquals(new Float(100), budget.query(startDate, endDate));
     }
 
     @Test
     public void testLessThanOneMonthSameMonth() {
+        givenBudget(
+                new LinkedHashMap() {{
+                    put("20186", 3000F);
+                }}
+        );
 
-        LocalDate today = LocalDate.of(2018, 06, 25);
-        LocalDate tomorrow = LocalDate.of(2018,06,26);
+        LocalDate startDate = LocalDate.of(2018, 06, 25);
+        LocalDate endDate = LocalDate.of(2018, 06, 26);
 
-        assertEquals(new Float(200), budget.query(today, tomorrow));
+        assertEquals(new Float(200), budget.query(startDate, endDate));
 
     }
 
     @Test
     public void testLessThanOneMonthDifMonth() {
+        givenBudget(
+                new LinkedHashMap() {{
+                    put("20186", 3000F);
+                    put("20187", 3100F);
+                }}
+        );
 
-        LocalDate today = LocalDate.of(2018, 06, 30);
-        LocalDate tomorrow = LocalDate.of(2018,07,01);
+        LocalDate startDate = LocalDate.of(2018, 06, 30);
+        LocalDate endDate = LocalDate.of(2018, 07, 01);
 
-        assertEquals(new Float(200), budget.query(today, tomorrow));
+        assertEquals(new Float(200), budget.query(startDate, endDate));
 
+    }
+
+    private void givenBudget(LinkedHashMap linkedHashMap) {
+        Map<String, Float> map = linkedHashMap;
+        budget.setBudgets(map);
     }
 }
